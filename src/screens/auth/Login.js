@@ -1,40 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image} from 'react-native'
-import { auth } from '../../firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../../firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate("Tab")
-      }
-    })
-    return unsubscribe
-  }, [])
-
-  const handleSignUp = () => {
-      createUserWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
-        const user = userCredential.user;
-        console.log('Registered with:', user.email);
+      const unsubscribe = auth.onAuthStateChanged(user => {
+        if (user) {
+          navigation.navigate("Tab")
+        }
       })
-      .catch(error => alert(error.message))
-  }
-
+      return unsubscribe
+    }, [])
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
         const user = userCredential.user;
         console.log('Logged in with:', user.email);
+        navigation.navigate("Tab");
       })
       .catch(error => alert(error.message))
   }
-
-
 
   return (
     <KeyboardAvoidingView
@@ -42,7 +30,7 @@ const LoginScreen = ({navigation}) => {
       behavior="padding"
     >
 
-      <Image style={styles.image} source={require("../assets/reuseme_logo1.png")} />
+      <Image style={styles.image} source={require("../../assets/reuseme_logo1.png")} />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
@@ -67,7 +55,7 @@ const LoginScreen = ({navigation}) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={() => navigation.navigate('Register')}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
