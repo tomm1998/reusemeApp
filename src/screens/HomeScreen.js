@@ -1,38 +1,27 @@
-import { StyleSheet, Image, View, TextInput, Text, TouchableOpacity} from 'react-native';
-import React, { useEffect, useState} from 'react';
-import {Picker} from '@react-native-picker/picker';
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUser } from '../redux/user';
+import { StyleSheet, Image, View, TextInput, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Picker } from "@react-native-picker/picker";
 
-
-const HomeScreen = ({navigation}) => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  useEffect(() => {
-      console.log(dispatch(fetchUser()));
-  }, [])
+const HomeScreen = ({ navigation }) => {
   return (
-   <View style={styles.container}>
+    <View style={styles.container}>
       <Image style={styles.image} source={require("../assets/reuseme.png")} />
-      <TextInput style={styles.input}
-      placeholder="Search for..."
-      />
+      <TextInput style={styles.input} placeholder="Search for..." />
     </View>
-    
-  )
-}
-export default HomeScreen
+  );
+};
+export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    alignItems:'center',
-    backgroundColor: '#c9e265'
+    alignItems: "center",
+    backgroundColor: "#c9e265",
   },
-  input:{
-    backgroundColor: 'white',
+  input: {
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 10,
-    width: '90%'
-  }
-})
+    width: "90%",
+  },
+});

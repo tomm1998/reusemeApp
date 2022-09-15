@@ -1,32 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { USER_STATE_CHANGE } from './constants'
+import { createSlice } from "@reduxjs/toolkit";
+import { USER_STATE_CHANGE } from "./constants";
 import { db, auth } from "../../firebase";
-import {  getDoc, doc, startAfter} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 const initialState = {
-  currentUser: null
-}
+  currentUser: {},
+};
 
 export const userSlice = createSlice({
   name: USER_STATE_CHANGE,
   initialState,
   reducers: {
-        fetchUser: () => {
-            getDoc(doc(db, "users", auth.currentUser.uid))
-            .then((snapshot) => {
-                if(snapshot.exists){
-                   currentUser = { type: USER_STATE_CHANGE, payload: { uid: auth.currentUser.uid, ...snapshot.data() } }
-    
-                }else{
-                    console.log('error')
-                }
-            })
-        }
+    login: (state, action) => {
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+    },
   },
-})
-
+});
 
 // Action creators are generated for each case reducer function
-export const { fetchUser } = userSlice.actions
+export const { login, logout } = userSlice.actions;
 
-export default userSlice.reducer
+export const selectUser = (state) => state.user.user;
+
+export default userSlice.reducer;
